@@ -1,0 +1,12 @@
+<mat-list-item role="listitem">
+    <p>Id: {{item.id}}</p>
+    <p>; Name: {{item.name}}</p>
+    <p>; Health card number: {{item.healthCardNumber}}</p>
+    <p>; Doctor Id: {{item.doctorId}}</p>
+    <button style="margin: 0 10px" mat-raised-button color="warn" aria-label="Update" (click)="updateClicked()">
+        Update
+    </button>
+    <button style="margin: 0 10px" mat-raised-button color="primary" aria-label="Delete" (click)="deleteClicked()">
+        Delete
+    </button>
+</mat-list-item>

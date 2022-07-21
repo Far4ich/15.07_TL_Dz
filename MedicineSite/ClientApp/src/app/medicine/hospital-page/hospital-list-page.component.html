@@ -1,0 +1,49 @@
+<mat-card>
+
+    <mat-card-content>
+        <h3>Hospitals</h3>
+        <mat-list *ngIf="items?.length > 0" role="list">
+            <tl-hospital-list-item *ngFor="let item of items"
+                               [item]="item"
+                               role="listitem"
+                               (update)="updateHospital($event)"
+                               (delete)="deleteHospital($event)">
+            </tl-hospital-list-item>
+        </mat-list>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <form [formGroup]="form">
+            <mat-form-field class="example-form-field" appearance="fill">
+                <mat-label>Name</mat-label>
+                <input formControlName="name" matInput type="text">
+                <button *ngIf="nameControl.value" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="nameControl.setValue(null)">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+        </form>
+        <form [formGroup]="form">
+            <mat-form-field class="example-form-field" appearance="fill">
+                <mat-label>Address</mat-label>
+                <input formControlName="address" matInput type="text">
+                <button *ngIf="addressControl.value" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="addressControl.setValue(null)">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+        </form>
+        <form [formGroup]="form">
+            <mat-form-field class="example-form-field" appearance="fill">
+                <mat-label>Telephone Number</mat-label>
+                <input formControlName="telephoneNumber" matInput type="text">
+                <button *ngIf="telephoneNumberControl.value" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="telephoneNumberControl.setValue(null)">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+        </form>
+        <button mat-flat-button color="primary" (click)="addItem()">Create</button>
+    </mat-card-actions>
+    
+</mat-card>
