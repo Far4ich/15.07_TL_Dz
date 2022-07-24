@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { IHospital } from "../shared/hospital.interface";
 import { HospitalService } from "../shared/hospital.service";
 import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/forms";
+import { DoctorListPageComponent } from '../doctor-page/doctor-list-page.component';
 
 @Component({
     selector: 'hospital-list-page',
@@ -13,6 +14,8 @@ export class HospitalListPageComponent implements OnInit {
     public items: IHospital[];
 
     public form: FormGroup;
+
+    @ViewChild(DoctorListPageComponent) doctorPage:DoctorListPageComponent;
 
     constructor(private hospitalService: HospitalService) {
         this.reloadHospitals();
@@ -67,6 +70,7 @@ export class HospitalListPageComponent implements OnInit {
     public deleteHospital(todo: IHospital): void {
         this.hospitalService.deleteHospital(todo.id).subscribe(() => {
             this.reloadHospitals();
+            this.doctorPage.reloadDoctorsPatients();
         });
     }
 

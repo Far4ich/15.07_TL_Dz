@@ -79,21 +79,8 @@ namespace MedicineApi.Controllers
         {
             try
             {
-                return Ok(_patientService.UpdatePatient(patient));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet]
-        [Route("doctors_by_count_patients")]
-        public IActionResult GetDoctorsByCountPatients()
-        {
-            try
-            {
-                return Ok(_patientService.GetDoctorsByCountPatients());
+                _patientService.UpdatePatient(patient);
+                return Ok();
             }
             catch (Exception ex)
             {

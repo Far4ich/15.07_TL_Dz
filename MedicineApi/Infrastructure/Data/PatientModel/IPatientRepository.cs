@@ -1,14 +1,13 @@
 ﻿using MedicineApi.Domain;
 
-namespace MedicineApi.Repositories
+namespace MedicineApi.Infrastructure.Data.PatientModel
 {
     public interface IPatientRepository
     {
-        IReadOnlyList<Patient> GetAll();
+        List<Patient> GetAll();
         Patient GetById(int id);
         int Create(Patient patient);
-        int Update(Patient patient);
+        void Update(Patient patient);
         void Delete(Patient patient);
-        List<Tuple<int, int>> GetDoctorsByCountPatients();
     }
 }

@@ -7,7 +7,7 @@ namespace MedicineApi.Services
     {
         List<Doctor> GetDoctors();
         Doctor GetDoctor(int doctorId);
-        int UpdateDoctor(DoctorDto doctor);
+        void UpdateDoctor(DoctorDto doctor);
         int CreateDoctor(DoctorDto doctor);
         void DeleteDoctor(int doctorId);
     }

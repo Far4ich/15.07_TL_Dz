@@ -4,12 +4,12 @@ import { PatientService } from "../shared/patient.service";
 import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/forms";
 
 @Component({
-    selector: 'patient-page',
-    templateUrl: './patient-page.component.html',
-    styleUrls: ['./patient-page.component.scss'],
+    selector: 'patient-list-page',
+    templateUrl: './patient-list-page.component.html',
+    styleUrls: ['./patient-list-page.component.scss'],
     providers: [PatientService]
 })
-export class PatientPageComponent implements OnInit {
+export class PatientListPageComponent implements OnInit {
     public items: IPatient[];
 
     public form: FormGroup;

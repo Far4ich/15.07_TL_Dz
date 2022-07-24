@@ -7,7 +7,7 @@ namespace MedicineApi.Services
     {
         List<Hospital> GetHospitals();
         Hospital GetHospital(int hospitalId);
-        int UpdateHospital(HospitalDto hospital);
+        void UpdateHospital(HospitalDto hospital);
         int CreateHospital(HospitalDto hospital);
         void DeleteHospital(int hospitalId);
     }

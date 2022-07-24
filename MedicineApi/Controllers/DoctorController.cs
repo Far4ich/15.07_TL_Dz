@@ -79,7 +79,8 @@ namespace MedicineApi.Controllers
         {
             try
             {
-                return Ok(_doctorService.UpdateDoctor(doctor));
+                _doctorService.UpdateDoctor(doctor);
+                return Ok();
             }
             catch (Exception ex)
             {

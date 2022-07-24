@@ -1,17 +1,21 @@
 ﻿using MedicineApi.Domain;
 using MedicineApi.Dto;
-using MedicineApi.Repositories;
+using MedicineApi.Infrastructure.UoW;
+using MedicineApi.Infrastructure.Data.PatientModel;
 
 namespace MedicineApi.Services
 {
     public class PatientService:IPatientService
     {
         private readonly IPatientRepository _patientRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public PatientService(IPatientRepository repository)
+        public PatientService(IPatientRepository repository, IUnitOfWork unitOfWork)
         {
             _patientRepository = repository;
+            _unitOfWork = unitOfWork;
         }
+
         public int CreatePatient(PatientDto patient)
         {
             if (patient == null)
@@ -21,7 +25,11 @@ namespace MedicineApi.Services
 
             Patient patientEntity = patient.ConvertToPatient();
 
-            return _patientRepository.Create(patientEntity);
+            int resultId = _patientRepository.Create(patientEntity);
+
+            _unitOfWork.SaveEntitiesAsync();
+
+            return resultId;
         }
 
         public void DeletePatient(int patientId)
@@ -33,12 +41,10 @@ namespace MedicineApi.Services
             }
 
             _patientRepository.Delete(patient);
-        }
 
-        public List<Tuple<int, int>> GetDoctorsByCountPatients()
-        {
-            return _patientRepository.GetDoctorsByCountPatients();
-        }
+            _unitOfWork.SaveEntitiesAsync();
+
+            }
 
         public Patient GetPatient(int patientId)
         {
@@ -58,15 +64,22 @@ namespace MedicineApi.Services
             return result;
         }
 
-        public int UpdatePatient(PatientDto patientDto)
+        public void UpdatePatient(PatientDto patientDto)
         {
-            Patient hospital = _patientRepository.GetById(patientDto.Id);
-            if (hospital == null)
+            Patient patient = _patientRepository.GetById(patientDto.Id);
+            if (patient == null)
             {
                 throw new Exception($"{nameof(Hospital)} not found, #Id - {patientDto.Id}");
             }
 
-            return _patientRepository.Update(patientDto.ConvertToPatient());
+            patient.UpdateName(patientDto.Name);
+            patient.UpdateHealthCardNumber(patientDto.HealthCardNumber);
+            patient.UpdateDoctorId(patientDto.DoctorId);
+
+            _patientRepository.Update(patient);
+
+            _unitOfWork.SaveEntitiesAsync();
+
         }
     }
 }

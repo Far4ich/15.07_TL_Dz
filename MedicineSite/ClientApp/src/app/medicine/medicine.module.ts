@@ -27,8 +27,8 @@ import { DoctorListItemComponent } from './doctor-item/doctor-list-item.componen
 import { DoctorListPageComponent } from './doctor-page/doctor-list-page.component';
 
 import { PatientService } from './shared/patient.service';
-import { PatientListItemComponent } from './patient-item/patient-item.component'
-import { PatientPageComponent } from './patient-page/patient-page.component';
+import { PatientListItemComponent } from './patient-item/patient-list-item.component'
+import { PatientListPageComponent } from './patient-page/patient-list-page.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +38,7 @@ import { PatientPageComponent } from './patient-page/patient-page.component';
     PatientListItemComponent,
     HospitalListPageComponent,
     DoctorListPageComponent,
-    PatientPageComponent
+    PatientListPageComponent
   ],
   imports: [
     MatToolbarModule,

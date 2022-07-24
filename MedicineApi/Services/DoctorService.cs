@@ -1,16 +1,19 @@
 ﻿using MedicineApi.Domain;
 using MedicineApi.Dto;
-using MedicineApi.Repositories;
+using MedicineApi.Infrastructure.Data.DoctorModel;
+using MedicineApi.Infrastructure.UoW;
 
 namespace MedicineApi.Services
 {
     public class DoctorService : IDoctorService
     {
         private readonly IDoctorRepository _doctorRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DoctorService(IDoctorRepository repository)
+        public DoctorService(IDoctorRepository repository, IUnitOfWork unitOfWork)
         {
             _doctorRepository = repository;
+            _unitOfWork = unitOfWork;
         }
         public int CreateDoctor(DoctorDto doctor)
         {
@@ -21,7 +24,11 @@ namespace MedicineApi.Services
 
             Doctor doctorEntity = doctor.ConvertToDoctor();
 
-            return _doctorRepository.Create(doctorEntity);
+            int resultId = _doctorRepository.Create(doctorEntity);
+
+            _unitOfWork.SaveEntitiesAsync();
+
+            return resultId;
         }
 
         public void DeleteDoctor(int doctorId)
@@ -33,6 +40,8 @@ namespace MedicineApi.Services
             }
 
             _doctorRepository.Delete(hospital);
+
+            _unitOfWork.SaveEntitiesAsync();
         }
 
         public Doctor GetDoctor(int doctorId)
@@ -53,15 +62,22 @@ namespace MedicineApi.Services
             return result;
         }
 
-        public int UpdateDoctor(DoctorDto doctorDto)
+        public void UpdateDoctor(DoctorDto doctorDto)
         {
-            Doctor hospital = _doctorRepository.GetById(doctorDto.Id);
-            if (hospital == null)
+            Doctor doctor = _doctorRepository.GetById(doctorDto.Id);
+            if (doctor == null)
             {
                 throw new Exception($"{nameof(Hospital)} not found, #Id - {doctorDto.Id}");
             }
 
-            return _doctorRepository.Update(doctorDto.ConvertToDoctor());
+            doctor.UpdateName(doctorDto.Name);
+            doctor.UpdateTelephoneNumber(doctorDto.TelephoneNumber);
+            doctor.UpdateHospitalId(doctorDto.HospitalId);
+
+            _doctorRepository.Update(doctor);
+
+            _unitOfWork.SaveEntitiesAsync();
+
         }
     }
 }

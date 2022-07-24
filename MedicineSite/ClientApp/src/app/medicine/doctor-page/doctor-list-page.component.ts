@@ -1,19 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { IDoctor } from "../shared/doctor.interface";
 import { DoctorService } from "../shared/doctor.service";
 import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/forms";
+import { PatientListPageComponent } from "../patient-page/patient-list-page.component";
 
 @Component({
     selector: 'doctor-list-page',
     templateUrl: './doctor-list-page.component.html',
     styleUrls: ['./doctor-list-page.component.scss'],
-    providers: [DoctorService]
+    providers: [DoctorService],
 })
 
 export class DoctorListPageComponent implements OnInit {
     public items: IDoctor[];
-
     public form: FormGroup;
+    @ViewChild(PatientListPageComponent) patientPage:PatientListPageComponent;
 
     constructor(private doctorService: DoctorService) {
         this.reloadDoctors();
@@ -67,8 +68,13 @@ export class DoctorListPageComponent implements OnInit {
 
     public deleteDoctor(todo: IDoctor): void {
         this.doctorService.deleteDoctor(todo.id).subscribe(() => {
-            this.reloadDoctors();
+            this.reloadDoctorsPatients();
         });
+    }
+
+    public reloadDoctorsPatients():void{
+        this.reloadDoctors();
+        this.patientPage.reloadPatients();
     }
 
     get nameControl(): AbstractControl {

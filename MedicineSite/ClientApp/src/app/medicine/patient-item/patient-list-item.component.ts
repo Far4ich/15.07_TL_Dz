@@ -2,8 +2,9 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { IPatient } from "../shared/patient.interface";
 
 @Component({
-    selector: 'tl-patient-item',
-    templateUrl:'./patient-item.component.html'
+    selector: 'tl-patient-list-item',
+    templateUrl:'./patient-list-item.component.html',
+    styleUrls: ['patient-list-item.css'],
 })
 
 export class PatientListItemComponent {

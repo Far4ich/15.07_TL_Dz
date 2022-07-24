@@ -1,16 +1,19 @@
 ﻿using MedicineApi.Domain;
 using MedicineApi.Dto;
-using MedicineApi.Repositories;
+using MedicineApi.Infrastructure.Data.HospitalModel;
+using MedicineApi.Infrastructure.UoW;
 
 namespace MedicineApi.Services
 {
     public class HospitalService : IHospitalService
     {
         private readonly IHospitalRepository _hospitalRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public HospitalService(IHospitalRepository repository)
+        public HospitalService(IHospitalRepository repository, IUnitOfWork unitOfWork)
         {
             _hospitalRepository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         public int CreateHospital(HospitalDto hospital)
@@ -22,7 +25,11 @@ namespace MedicineApi.Services
 
             Hospital hospitalEntity = hospital.ConvertToHospital();
 
-            return _hospitalRepository.Create(hospitalEntity);
+            int resultId = _hospitalRepository.Create(hospitalEntity);
+
+            _unitOfWork.SaveEntitiesAsync();
+
+            return resultId;
         }
 
         public void DeleteHospital(int hospitalId)
@@ -34,6 +41,7 @@ namespace MedicineApi.Services
             }
 
             _hospitalRepository.Delete(hospital);
+            _unitOfWork.SaveEntitiesAsync();
         }
 
         public Hospital GetHospital(int hospitalId)
@@ -54,15 +62,22 @@ namespace MedicineApi.Services
             return result;
         }
 
-        public int UpdateHospital(HospitalDto hospitalDto)
+        public void UpdateHospital(HospitalDto hospitalDto)
         {
             Hospital hospital = _hospitalRepository.GetById(hospitalDto.Id);
+            
             if (hospital == null)
             {
                 throw new Exception($"{nameof(Hospital)} not found, #Id - {hospitalDto.Id}");
             }
 
-            return _hospitalRepository.Update(hospitalDto.ConvertToHospital());
+            hospital.UpdateName(hospitalDto.Name);
+            hospital.UpdateAddress(hospitalDto.Address);
+            hospital.UpdateTelephoneNumber(hospitalDto.TelephoneNumber);
+
+            _hospitalRepository.Update(hospital);
+
+            _unitOfWork.SaveEntitiesAsync();
         }
     }
 }

@@ -1,14 +1,13 @@
 ﻿using MedicineApi.Domain;
 
-namespace MedicineApi.Repositories
+namespace MedicineApi.Infrastructure.Data.HospitalModel
 {
     public interface IHospitalRepository
     {
-        IReadOnlyList<Hospital> GetAll();
+        List<Hospital> GetAll();
         Hospital GetById(int id);
-        Hospital GetFromDoctor(Doctor doctor);
         int Create(Hospital hospital);
-        int Update(Hospital hospital);
+        void Update(Hospital hospital);
         void Delete(Hospital hospital);
     }
 }
