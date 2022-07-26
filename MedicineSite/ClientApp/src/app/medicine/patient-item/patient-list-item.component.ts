@@ -8,15 +8,12 @@ import { IPatient } from "../shared/patient.interface";
 })
 
 export class PatientListItemComponent {
-    @Input() public item: IPatient;
-    @Output() public update: EventEmitter<IPatient> = new EventEmitter<IPatient>();
+
+    displayedColumns: string[] = ['id', 'name', 'healthCardNumber', 'doctorId', 'actions'];
+    @Input() public dataSource: IPatient[];
     @Output() public delete: EventEmitter<IPatient> = new EventEmitter<IPatient>();
 
-    public deleteClicked(): void {
-        this.delete.emit(this.item);
-    }
-
-    public updateClicked(): void {
-        this.update.emit(this.item);
+    public deleteClicked(element: IPatient): void {
+        this.delete.emit(element);
     }
 }

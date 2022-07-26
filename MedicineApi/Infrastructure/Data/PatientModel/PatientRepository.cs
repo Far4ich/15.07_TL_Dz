@@ -5,11 +5,11 @@ using MedicineApi.Domain;
 
 namespace MedicineApi.Infrastructure.Data.PatientModel
 {
-    public class SqlPatientRepository : IPatientRepository
+    public class PatientRepository : IPatientRepository
     {
         private readonly MedicineContext _dbContext;
 
-        public SqlPatientRepository(MedicineContext dbContext)
+        public PatientRepository(MedicineContext dbContext)
         {
             _dbContext = dbContext;
         }

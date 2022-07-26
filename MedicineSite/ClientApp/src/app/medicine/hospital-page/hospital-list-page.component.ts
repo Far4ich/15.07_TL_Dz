@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IHospital } from "../shared/hospital.interface";
 import { HospitalService } from "../shared/hospital.service";
 import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/forms";
-import { DoctorListPageComponent } from '../doctor-page/doctor-list-page.component';
 
 @Component({
     selector: 'hospital-list-page',
@@ -14,8 +13,6 @@ export class HospitalListPageComponent implements OnInit {
     public items: IHospital[];
 
     public form: FormGroup;
-
-    @ViewChild(DoctorListPageComponent) doctorPage:DoctorListPageComponent;
 
     constructor(private hospitalService: HospitalService) {
         this.reloadHospitals();
@@ -29,6 +26,7 @@ export class HospitalListPageComponent implements OnInit {
 
     public ngOnInit(): void {
         this.form = new FormGroup({
+            id: new FormControl(null),
             name: new FormControl(null, [Validators.required]),
             address: new FormControl(null, [Validators.required]),
             telephoneNumber: new FormControl(null, [Validators.required])
@@ -52,9 +50,9 @@ export class HospitalListPageComponent implements OnInit {
         });
     }
 
-    public updateHospital(todo: IHospital): void {
+    public updateHospital(): void {
         this.hospitalService.updateHospital({
-                id: todo.id,
+                id: this.idControl.value,
                 name: this.nameControl.value,
                 address: this.addressControl.value,
                 telephoneNumber: this.telephoneNumberControl.value
@@ -70,8 +68,11 @@ export class HospitalListPageComponent implements OnInit {
     public deleteHospital(todo: IHospital): void {
         this.hospitalService.deleteHospital(todo.id).subscribe(() => {
             this.reloadHospitals();
-            this.doctorPage.reloadDoctorsPatients();
         });
+    }
+
+    get idControl(): AbstractControl {
+        return this.form.get('id');
     }
 
     get nameControl(): AbstractControl {

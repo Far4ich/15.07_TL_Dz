@@ -1,18 +1,33 @@
 <mat-card>
 
+    <mat-card-title>Medicine</mat-card-title>
+    <mat-nav-list  class="list-horizontal">
+        <mat-list-item class="nav-item"><a routerLink="/hospital"><h3>Hospital</h3></a></mat-list-item>
+        <mat-list-item class="nav-item"><a routerLink="/doctor"><h3>Doctor</h3></a></mat-list-item>
+        <mat-list-item class="nav-item"><a routerLink="/patient"><h3>Patient</h3></a></mat-list-item>
+    </mat-nav-list>
+    <br>
+
     <mat-card-content>
         <h3>Hospitals</h3>
-        <mat-list *ngIf="items?.length > 0" role="list">
-            <tl-hospital-list-item *ngFor="let item of items"
-                               [item]="item"
-                               role="listitem"
-                               (update)="updateHospital($event)"
-                               (delete)="deleteHospital($event)">
-            </tl-hospital-list-item>
-        </mat-list>
+    
+        <tl-hospital-list-item *ngIf="items?.length > 0"
+                            [dataSource]="items"
+                            (delete)="deleteHospital($event)">
+        </tl-hospital-list-item>
     </mat-card-content>
 
-    <mat-card-actions>
+    <mat-card-actions class="form">
+        <form [formGroup]="form">
+            <mat-form-field class="example-form-field" appearance="fill">
+                <mat-label>Id for update</mat-label>
+                <input formControlName="id" matInput type="number">
+                <button *ngIf="idControl.value" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="idControl.setValue(null)">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+        </form>
         <form [formGroup]="form">
             <mat-form-field class="example-form-field" appearance="fill">
                 <mat-label>Name</mat-label>
@@ -43,8 +58,8 @@
                 </button>
             </mat-form-field>
         </form>
-        <button mat-flat-button color="primary" (click)="addItem()">Create</button>
+        <button mat-flat-button color="accent" (click)="addItem()">Create</button>
+        <button style="margin: 0px 10px" mat-flat-button color="primary" (click)="updateHospital()">Update</button>
     </mat-card-actions>
     
-    <doctor-list-page></doctor-list-page>
 </mat-card>

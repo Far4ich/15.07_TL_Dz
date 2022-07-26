@@ -6,11 +6,11 @@ using MedicineApi.Infrastructure.Data;
 
 namespace MedicineApi.Infrastructure.Data.HospitalModel
 {
-    public class SqlHospitalRepository : IHospitalRepository
+    public class HospitalRepository : IHospitalRepository
     {
         private readonly MedicineContext _dbContext;
 
-        public SqlHospitalRepository(MedicineContext dbContext)
+        public HospitalRepository(MedicineContext dbContext)
         {
             _dbContext = dbContext;
         }

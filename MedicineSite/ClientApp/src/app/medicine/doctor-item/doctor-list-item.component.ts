@@ -3,19 +3,16 @@ import { IDoctor } from "../shared/doctor.interface";
 
 @Component({
     selector: 'tl-doctor-list-item',
-    templateUrl:'./doctor-list-item.component.html'
+    templateUrl:'./doctor-list-item.component.html',
+    styleUrls: ['doctor-list-item.css']
 })
 
-export class DoctorListItemComponent {
-    @Input() public item: IDoctor;
-    @Output() public update: EventEmitter<IDoctor> = new EventEmitter<IDoctor>();
+export class DoctorListItemComponent { 
+    displayedColumns: string[] = ['id', 'name', 'telephoneNumber', 'hospitalId', 'actions'];
+    @Input() public dataSource: IDoctor[];
     @Output() public delete: EventEmitter<IDoctor> = new EventEmitter<IDoctor>();
 
-    public deleteClicked(): void {
-        this.delete.emit(this.item);
-    }
-
-    public updateClicked(): void {
-        this.update.emit(this.item);
+    public deleteClicked(element: IDoctor): void {
+        this.delete.emit(element);
     }
 }

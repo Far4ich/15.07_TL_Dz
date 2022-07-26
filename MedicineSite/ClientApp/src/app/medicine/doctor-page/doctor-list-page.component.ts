@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IDoctor } from "../shared/doctor.interface";
 import { DoctorService } from "../shared/doctor.service";
 import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/forms";
-import { PatientListPageComponent } from "../patient-page/patient-list-page.component";
 
 @Component({
     selector: 'doctor-list-page',
@@ -14,7 +13,6 @@ import { PatientListPageComponent } from "../patient-page/patient-list-page.comp
 export class DoctorListPageComponent implements OnInit {
     public items: IDoctor[];
     public form: FormGroup;
-    @ViewChild(PatientListPageComponent) patientPage:PatientListPageComponent;
 
     constructor(private doctorService: DoctorService) {
         this.reloadDoctors();
@@ -28,6 +26,7 @@ export class DoctorListPageComponent implements OnInit {
 
     public ngOnInit(): void {
         this.form = new FormGroup({
+            id: new FormControl(null),
             name: new FormControl(null, [Validators.required]),
             hospitalId: new FormControl(null, [Validators.required]),
             telephoneNumber: new FormControl(null, [Validators.required])
@@ -51,9 +50,9 @@ export class DoctorListPageComponent implements OnInit {
         });
     }
 
-    public updateDoctor(todo: IDoctor): void {
+    public updateDoctor(): void {
         this.doctorService.updateDoctor({
-                id: todo.id,
+                id: this.idControl.value,
                 name: this.nameControl.value,
                 hospitalId: this.hospitalIdControl.value,
                 telephoneNumber: this.telephoneNumberControl.value
@@ -68,13 +67,12 @@ export class DoctorListPageComponent implements OnInit {
 
     public deleteDoctor(todo: IDoctor): void {
         this.doctorService.deleteDoctor(todo.id).subscribe(() => {
-            this.reloadDoctorsPatients();
+            this.reloadDoctors();
         });
     }
 
-    public reloadDoctorsPatients():void{
-        this.reloadDoctors();
-        this.patientPage.reloadPatients();
+    get idControl(): AbstractControl {
+        return this.form.get('id');
     }
 
     get nameControl(): AbstractControl {

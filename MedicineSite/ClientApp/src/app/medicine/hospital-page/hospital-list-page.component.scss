@@ -7,3 +7,11 @@ mat-list {
     background: #606060;
     margin-top: 20px;
 }
+mat-nav-list.list-horizontal {
+    display: flex;
+    flex-direction: row;
+    width: 20%;
+   }
+.form{
+    margin-left: 0px;
+}

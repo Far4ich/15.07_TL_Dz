@@ -11,7 +11,6 @@ import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/fo
 })
 export class PatientListPageComponent implements OnInit {
     public items: IPatient[];
-
     public form: FormGroup;
 
     constructor(private patientService: PatientService) {
@@ -26,6 +25,7 @@ export class PatientListPageComponent implements OnInit {
 
     public ngOnInit(): void {
         this.form = new FormGroup({
+            id: new FormControl(null),
             name: new FormControl(null, [Validators.required]),
             healthCardNumber: new FormControl(null, [Validators.required]),
             doctorId: new FormControl(null, [Validators.required])
@@ -49,9 +49,9 @@ export class PatientListPageComponent implements OnInit {
         });
     }
 
-    public updatePatient(patient: IPatient): void {
+    public updatePatient(): void {
         this.patientService.updatePatient({
-            id: patient.id,
+            id: this.idControl.value,
             name: this.nameControl.value,
             healthCardNumber: this.healthCardNumberControl.value,
             doctorId: this.doctorIdControl.value
@@ -68,6 +68,10 @@ export class PatientListPageComponent implements OnInit {
         this.patientService.deletePatient(patient.id).subscribe(() => {
             this.reloadPatients();
         });
+    }
+
+    get idControl(): AbstractControl {
+        return this.form.get('id');
     }
 
     get nameControl(): AbstractControl {

@@ -1,47 +1,62 @@
-<mat-card-content>
-    <h3>Doctors</h3>
-    <mat-list *ngIf="items?.length > 0" role="list">
-        <tl-doctor-list-item *ngFor="let item of items"
-                            [item]="item"
-                            role="listitem"
-                            (update)="updateDoctor($event)"
-                            (delete)="deleteDoctor($event)">
-        </tl-doctor-list-item>
-    </mat-list>
-</mat-card-content>
-
-<mat-card-actions>
-    <form [formGroup]="form">
-        <mat-form-field class="example-form-field" appearance="fill">
-            <mat-label>Name</mat-label>
-            <input formControlName="name" matInput type="text">
-            <button *ngIf="nameControl.value" matSuffix mat-icon-button aria-label="Clear"
-                    (click)="nameControl.setValue(null)">
-                <mat-icon>close</mat-icon>
-            </button>
-        </mat-form-field>
-    </form>
-    <form [formGroup]="form">
-        <mat-form-field class="example-form-field" appearance="fill">
-            <mat-label>Telephone Number</mat-label>
-            <input formControlName="telephoneNumber" matInput type="text">
-            <button *ngIf="telephoneNumberControl.value" matSuffix mat-icon-button aria-label="Clear"
-                    (click)="telephoneNumberControl.setValue(null)">
-                <mat-icon>close</mat-icon>
-            </button>
-        </mat-form-field>
-    </form>
-    <form [formGroup]="form">
-        <mat-form-field class="example-form-field" appearance="fill">
-            <mat-label>Hospital id</mat-label>
-            <input formControlName="hospitalId" matInput type="number">
-            <button *ngIf="hospitalIdControl.value" matSuffix mat-icon-button aria-label="Clear"
-                    (click)="hospitalIdControl.setValue(null)">
-                <mat-icon>close</mat-icon>
-            </button>
-        </mat-form-field>
-    </form>
-    <button mat-flat-button color="primary" (click)="addItem()">Create</button>
-</mat-card-actions>
-
-<patient-list-page></patient-list-page>
+<mat-card>
+    <mat-card-title>Medicine</mat-card-title>
+    <mat-nav-list  class="list-horizontal">
+        <mat-list-item class="nav-item"><a routerLink="/hospital"><h3>Hospital</h3></a></mat-list-item>
+        <mat-list-item class="nav-item"><a routerLink="/doctor"><h3>Doctor</h3></a></mat-list-item>
+        <mat-list-item class="nav-item"><a routerLink="/patient"><h3>Patient</h3></a></mat-list-item>
+    </mat-nav-list>
+    <br>
+    <mat-card-content>
+        <h3>Doctors</h3>
+            <tl-doctor-list-item *ngIf="items?.length > 0"
+                                [dataSource]="items"
+                                (delete)="deleteDoctor($event)">
+            </tl-doctor-list-item>
+    </mat-card-content>
+    
+    <mat-card-actions class="form">
+        <form [formGroup]="form">
+            <mat-form-field class="example-form-field" appearance="fill">
+                <mat-label>Id for update</mat-label>
+                <input formControlName="id" matInput type="number">
+                <button *ngIf="idControl.value" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="idControl.setValue(null)">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+        </form>
+        <form [formGroup]="form">
+            <mat-form-field class="example-form-field" appearance="fill">
+                <mat-label>Name</mat-label>
+                <input formControlName="name" matInput type="text">
+                <button *ngIf="nameControl.value" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="nameControl.setValue(null)">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+        </form>
+        <form [formGroup]="form">
+            <mat-form-field class="example-form-field" appearance="fill">
+                <mat-label>Telephone Number</mat-label>
+                <input formControlName="telephoneNumber" matInput type="text">
+                <button *ngIf="telephoneNumberControl.value" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="telephoneNumberControl.setValue(null)">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+        </form>
+        <form [formGroup]="form">
+            <mat-form-field class="example-form-field" appearance="fill">
+                <mat-label>Hospital id</mat-label>
+                <input formControlName="hospitalId" matInput type="number">
+                <button *ngIf="hospitalIdControl.value" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="hospitalIdControl.setValue(null)">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+        </form>
+        <button mat-flat-button color="accent" (click)="addItem()">Create</button>
+        <button style="margin: 0px 10px" mat-flat-button color="primary" (click)="updateDoctor()">Update</button>
+    </mat-card-actions>
+    
+</mat-card>

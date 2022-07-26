@@ -3,19 +3,16 @@ import { IHospital } from "../shared/hospital.interface";
 
 @Component({
     selector: 'tl-hospital-list-item',
-    templateUrl:'./hospital-list-item.component.html'
+    templateUrl:'./hospital-list-item.component.html',
+    styleUrls: ['hospital-list-item.css']
 })
 
 export class HospitalListItemComponent {
-    @Input() public item: IHospital;
-    @Output() public update: EventEmitter<IHospital> = new EventEmitter<IHospital>();
+    displayedColumns: string[] = ['id', 'name', 'address', 'telephoneNumber', 'actions'];
+    @Input() public dataSource: IHospital[];
     @Output() public delete: EventEmitter<IHospital> = new EventEmitter<IHospital>();
 
-    public deleteClicked(): void {
-        this.delete.emit(this.item);
-    }
-
-    public updateClicked(): void {
-        this.update.emit(this.item);
+    public deleteClicked(element:IHospital): void {
+        this.delete.emit(element);
     }
 }
